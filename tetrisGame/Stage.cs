@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Stage : MonoBehaviour
 {
@@ -369,22 +369,18 @@ public class Stage : MonoBehaviour
         }
     }
 
-    void killnum(){
-            // next의 자식 오브젝트를 반복합니다.
-for (int i = 0; i < next.childCount; i++)
-{
-    // 현재 자식 오브젝트를 가져옵니다.
-    Transform child = next.GetChild(i);
+        void killnum(){
+            
+            for (int i = 0; i < next.childCount; i++) {
+                Transform child = next.GetChild(i);
 
-    // 현재 자식 오브젝트의 자식 오브젝트를 제거합니다.
-    foreach (Transform grandChild in child)
-    {
-        Destroy(grandChild.gameObject);
-    }
-}
+                foreach (Transform grandChild in child) {
+                    Destroy(grandChild.gameObject);
+                }
+            }
 
         
-    }
+        }
 
     void minohold() {
         dohold = true;
@@ -395,15 +391,7 @@ for (int i = 0; i < next.childCount; i++)
             int maxax = holdnum;
             Color32 color = Color.white;
 
-            if(maxax == 3){
-                hold.position = new Vector2(-8.5f, halfHeight-2.5f);
-            } 
-            else if(maxax == 0) {
-                hold.position = new Vector2(-8.5f, halfHeight-3.5f);
-            }
-            else {
-                hold.position = new Vector2(-9f, halfHeight-3);
-            }
+            positionfunc(hold, -8, halfHeight - 3, maxax);
         
             MakeMino(hold, maxax, color);
             for(int i = 0; i<4; i++){
@@ -414,16 +402,7 @@ for (int i = 0; i < next.childCount; i++)
             color = Color.white;
             tetrominoNode.rotation = Quaternion.identity;
 
-            if(maxax == 3){
-                tetrominoNode.position = new Vector2(-0.5f, halfHeight+0.5f);
-            } 
-            else if(maxax == 0) {
-                tetrominoNode.position = new Vector2(-0.5f, halfHeight-0.5f);
-            }
-
-            else {
-                tetrominoNode.position = new Vector2(-1, halfHeight);
-            }
+            positionfunc(tetrominoNode, 0, halfHeight, maxax);
             MakeMino(tetrominoNode, maxax, color);
             holdnum3 = holdnum2;
             holdnum2 = holdnum;
@@ -434,16 +413,8 @@ for (int i = 0; i < next.childCount; i++)
             holdnum2 = holdnum;
             Color32 color = Color.white;
 
-            if(maxax == 3){
-                hold.position = new Vector2(-8.5f, halfHeight-2.5f);
-            } 
-            else if(maxax == 0) {
-            hold.position = new Vector2(-8.5f, halfHeight-3.5f);
-            }
-        
-            else {
-                hold.position = new Vector2(-9f, halfHeight-3);
-            }
+            positionfunc(hold, -8, halfHeight - 3, maxax);
+          
         
             MakeMino(hold, maxax, color);
             for(int i = 0; i<4; i++){
@@ -562,6 +533,8 @@ for (int i = 0; i < next.childCount; i++)
     {
         int maxax = nextnumbers[j];
         Color32 color = Color.white;
+
+        
         if(maxax == 0){
             tetrominoqueue.position = new Vector2(halfWidth+2.5f, -halfHeight + 1.5f + j*5);
         }
@@ -574,30 +547,31 @@ for (int i = 0; i < next.childCount; i++)
         
         MakeMino(tetrominoqueue, maxax, color);
     }
-
+    
+    void positionfunc(Transform parent, int ax, int ay, int sort){
+        
+        
+        if(sort == 3){
+            parent.position = new Vector2(ax-0.5f, ay+0.5f);
+        } 
+        else if(sort == 0) {
+            parent.position = new Vector2(ax-0.5f, ay-0.5f);
+        }
+        
+        else {
+            parent.position = new Vector2(ax-1, ay);
+            
+        }
+    }
     
 
     // 테트로미노 생성
     void CreateTetromino()
     {   
-        
-       
-        
         int maxax = nextnumbers[3];
         Color32 color = Color.white;
         tetrominoNode.rotation = Quaternion.identity;
-
-        if(maxax == 3){
-            tetrominoNode.position = new Vector2(-0.5f, halfHeight+0.5f);
-        } 
-        else if(maxax == 0) {
-            tetrominoNode.position = new Vector2(-0.5f, halfHeight-0.5f);
-        }
-        
-        else {
-            tetrominoNode.position = new Vector2(-1, halfHeight);
-            
-        }
+        positionfunc(tetrominoNode, 0, halfHeight, maxax);
         holdnum = nextnumbers[3];
         numaddd();
         killnum();
