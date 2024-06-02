@@ -13,9 +13,12 @@ public partial class Stage : MonoBehaviour
   }
   public void restartgame(){
     SceneManager.LoadScene(0);
+    speedUpEnd();
+    doubleScoreEnd();
    }
    public void gomenu(){
     SceneManager.LoadScene("New Scene");
+
    }
   public void sdfsdfsdf(){
    if (Input.GetKeyDown(KeyCode.Return)){
